@@ -170,8 +170,10 @@ public class PriorityQueue<T> implements java.io.Serializable {
 
 	private void shrink() {
 		int oldCapacity = fila.length;
-		int newCapacity = oldCapacity >> 1;
-		fila = Arrays.copyOf(fila, newCapacity);
+		if (oldCapacity > 64) {
+			int newCapacity = oldCapacity >> 1;
+			fila = Arrays.copyOf(fila, newCapacity);
+		}
 	}
 
 	@SuppressWarnings("unchecked")

@@ -21,10 +21,11 @@ public class TSPBranchAndBound<T> {
 	public Grafo<T> solve() {
 		T v = graph.getVertices().get(0);
 		Node n = new Node(v, graph);
-		
+
 		/**
-		 * Executaion Stack tem como função fazer possivel a busca em profundidade evitando
-		 * eventuais problemas de overflow na stack da Java Virtual Machine (JVM).
+		 * Executaion Stack tem como função fazer possivel a busca em profundidade
+		 * evitando eventuais problemas de overflow na stack da Java Virtual Machine
+		 * (JVM).
 		 */
 		Stack<Node> executionStack = new Stack<>();
 
@@ -36,21 +37,21 @@ public class TSPBranchAndBound<T> {
 			System.out.println("Visited graph with cost " + n.calculateEstimatedCost());
 			System.out.println(n.visited.toString());
 			System.out.println(n.reducedGraph.toString());
-			
-			
-			if(!n.checkFeasibility()) {
+
+			// poda por infactibilidade (não consegue fechar circuito)
+			if (!n.checkFeasibility()) {
 				continue;
 			}
-			
+
 			// poda por qualidade
-			// if (n.calculateEstimatedCost() > bestSolution) {
-			// continue;
-			// }
-			
+			if (n.calculateEstimatedCost() > bestSolution) {
+				continue;
+			}
+
 			// todas as cidades visitadas
 			if (n.level == graph.getVertices().size() - 1) {
 				boolean aux = false;
-				
+
 				// ver se o circuito fecha
 				Adjacencia a = n.reducedGraph.primeiroAdjacente(v);
 				while (a != null) {
@@ -58,7 +59,7 @@ public class TSPBranchAndBound<T> {
 						aux = true;
 					a = n.reducedGraph.proximoAdjacente(a);
 				}
-				
+
 				// se o cricuito fechar, atualiza a melhor solução.
 				if (aux & (n.calculateEstimatedCost() < bestSolution)) {
 					bestSolution = n.calculateEstimatedCost();
@@ -128,31 +129,31 @@ public class TSPBranchAndBound<T> {
 			}
 
 		}
-		
+
 		private boolean checkFeasibility(T v, List<T> visited) {
 			Adjacencia a = reducedGraph.primeiroAdjacente(v);
 			visited.add(v);
 			while (a != null) {
 				if (reducedGraph.getVertices().get(a.destino()).equals(reducedGraph.getVertices().get(0)))
 					return true;
-				if(!visited.contains(reducedGraph.getVertices().get(a.destino()))) 
-					if(checkFeasibility(reducedGraph.getVertices().get(a.destino()), visited))
+				if (!visited.contains(reducedGraph.getVertices().get(a.destino())))
+					if (checkFeasibility(reducedGraph.getVertices().get(a.destino()), visited))
 						return true;
 				a = reducedGraph.proximoAdjacente(a);
 			}
-			return false; //4124
+			return false; // 4124
 		}
-		
+
 		private boolean checkFeasibility() {
 			return checkFeasibility(vortex, new ArrayList<>(visited));
 		}
-		
+
 		private double calculateEstimatedCost() {
 			Adjacencia a;
 			// estimar custo usando 1-Tree (lower bound)
-			if(estimatedCost == -1) {
+			if (estimatedCost == -1) {
 				estimatedCost = 0;
-				Grafo<T> oneTree = reducedGraph;// reducedGraph.executarOneTree(0);
+				Grafo<T> oneTree = reducedGraph.executarOneTree(0);
 				for (T e : reducedGraph.getVertices()) {
 					a = oneTree.primeiroAdjacente(e);
 					while (a != null) {
