@@ -329,7 +329,6 @@ public class TSPBranchAndBound<T> {
 			if (estimatedCost == -1) {
 				estimatedCost = 0;
 				Grafo<T> oneTree = reducedGraph.executarOneTree(0);
-				System.out.println(oneTree);
 				for (T e : reducedGraph.getVertices()) {
 					a = oneTree.primeiroAdjacente(e);
 					while (a != null) {
@@ -349,6 +348,7 @@ public class TSPBranchAndBound<T> {
 		}
 		System.out.println("Executando... ");
 		java.io.PrintStream console = System.out;
+		// saida de teste
 		System.setOut((new java.io.PrintStream(System.getenv("HOME") + "/testTSP.txt")));
 		g.addAresta(1, 2, 2);
 		g.addAresta(1, 3, 4);
@@ -392,7 +392,7 @@ public class TSPBranchAndBound<T> {
 		Grafo<Integer> r = t.solve();
 		System.setOut(console);
 		System.out.println("Fim\n");
-		System.out.println("Resolution");
+		System.out.println("Resoluçao: ");
 		System.out.println(r.toString());
 	}
 }
