@@ -310,6 +310,7 @@ public class TSPBranchAndBound<T> {
 			if (estimatedCost == -1) {
 				estimatedCost = 0;
 				Grafo<T> oneTree = reducedGraph.executarOneTree(0);
+				System.out.println(oneTree);
 				for (T e : reducedGraph.getVertices()) {
 					a = oneTree.primeiroAdjacente(e);
 					while (a != null) {
