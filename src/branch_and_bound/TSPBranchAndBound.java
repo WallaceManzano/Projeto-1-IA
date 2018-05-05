@@ -130,9 +130,13 @@ public class TSPBranchAndBound<T> {
 		while (!executionStack.empty()) {
 			n = executionStack.pop();
 			v = n.vortex;
-			System.out.println("Visited graph with cost " + n.calculateEstimatedCost());
-			System.out.println(n.visited.toString());
-			System.out.println(n.reducedGraph.toString());
+
+			// somente para teste
+			/*
+			 * System.out.println("Visited graph with cost " + n.calculateEstimatedCost());
+			 * System.out.println(n.visited.toString());
+			 * System.out.println(n.reducedGraph.toString());
+			 */
 
 			// poda por infactibilidade (não consegue fechar circuito)
 			if (!n.checkFeasibility()) {
@@ -151,8 +155,11 @@ public class TSPBranchAndBound<T> {
 				// ver se o circuito fecha
 				Adjacencia a = n.reducedGraph.primeiroAdjacente(v);
 				while (a != null) {
-					if (a.destino() == 0)
+					if (a.destino() == 0) {
 						aux = true;
+					} else {
+						n.reducedGraph.removeAresta(a.origem(), a.destino());
+					}
 					a = n.reducedGraph.proximoAdjacente(a);
 				}
 
@@ -176,6 +183,18 @@ public class TSPBranchAndBound<T> {
 		}
 
 		return bestSolutionGraph;
+	}
+
+	/**
+	 * Retorna o custo do circuito dado pelo método {@link solve}. Caso o método não
+	 * tenha sido invocado, então ele será invocado e seu resultado será retornado.
+	 * 
+	 * @return o custo do circuito da solução.
+	 */
+	public double solutionCost() {
+		if (bestSolution == Double.MAX_VALUE)
+			solve();
+		return bestSolution;
 	}
 
 	/**
@@ -321,7 +340,6 @@ public class TSPBranchAndBound<T> {
 			}
 			return estimatedCost;
 		}
-
 	}
 
 	public static void main(String[] agrgs) throws java.io.IOException {
