@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import utils.Grafo;
 import utils.Grafo.Adjacencia;
+import utils.UnionFind;
 
 /**
  * Classe que realiza o algoritmo Branch and Bound em grafos a fim de encontrar
@@ -273,26 +274,23 @@ public class TSPBranchAndBound<T> {
 
 		/**
 		 * Verifica se o nó é factível, ou seja, é possível sair do nó inicial passar
-		 * por todos os nós e voltar ao inicial.
+		 * por todos os nós e voltar ao inicial, ou seja, não é disjunto. Para isso é
+		 * usada a estrutura de dados Union Find (a.k.a. disjoint-set).
 		 * 
-		 * @return
+		 * @return true se o grafo for factível.
+		 * @see UnionFind
 		 */
 		private boolean checkFeasibility() {
-			return checkFeasibility(vortex, new ArrayList<>(visited));
-		}
+			UnionFind uf = new UnionFind(reducedGraph.size());
+			for (T e : reducedGraph.getVertices()) {
+				Adjacencia a = reducedGraph.primeiroAdjacente(e);
+				while (a != null) {
+					uf.union(a.origem(), a.destino());
+					a = reducedGraph.proximoAdjacente(a);
+				}
 
-		private boolean checkFeasibility(T v, List<T> visited) {
-			Adjacencia a = reducedGraph.primeiroAdjacente(v);
-			visited.add(v);
-			while (a != null) {
-				if (reducedGraph.getVertices().get(a.destino()).equals(reducedGraph.getVertices().get(0)))
-					return true;
-				if (!visited.contains(reducedGraph.getVertices().get(a.destino())))
-					if (checkFeasibility(reducedGraph.getVertices().get(a.destino()), visited))
-						return true;
-				a = reducedGraph.proximoAdjacente(a);
 			}
-			return false;
+			return uf.quantidadeGrupos() == 1;
 		}
 
 		/**
@@ -323,5 +321,59 @@ public class TSPBranchAndBound<T> {
 			return estimatedCost;
 		}
 
+	}
+
+	public static void main(String[] agrgs) throws java.io.IOException {
+		Grafo<Integer> g = new Grafo<>(true);
+		for (int i = 1; i <= 8; i++) {
+			g.addVertice(i);
+		}
+		System.out.println("Executando... ");
+		java.io.PrintStream console = System.out;
+		System.setOut((new java.io.PrintStream(System.getenv("HOME") + "/testTSP.txt")));
+		g.addAresta(1, 2, 2);
+		g.addAresta(1, 3, 4);
+		g.addAresta(1, 4, 5);
+
+		g.addAresta(2, 1, 2);
+		g.addAresta(2, 3, 4);
+		g.addAresta(2, 6, 7);
+		g.addAresta(2, 7, 5);
+
+		g.addAresta(3, 1, 4);
+		g.addAresta(3, 2, 4);
+		g.addAresta(3, 4, 1);
+		g.addAresta(3, 5, 7);
+		g.addAresta(3, 6, 4);
+
+		g.addAresta(4, 1, 5);
+		g.addAresta(4, 3, 1);
+		g.addAresta(4, 5, 10);
+
+		g.addAresta(5, 3, 7);
+		g.addAresta(5, 4, 10);
+		g.addAresta(5, 6, 1);
+		g.addAresta(5, 8, 4);
+
+		g.addAresta(6, 2, 7);
+		g.addAresta(6, 3, 4);
+		g.addAresta(6, 5, 1);
+		g.addAresta(6, 7, 3);
+		g.addAresta(6, 8, 5);
+
+		g.addAresta(7, 2, 5);
+		g.addAresta(7, 6, 3);
+		g.addAresta(7, 8, 2);
+
+		g.addAresta(8, 5, 4);
+		g.addAresta(8, 6, 5);
+		g.addAresta(8, 7, 2);
+
+		TSPBranchAndBound<Integer> t = new TSPBranchAndBound<>(g);
+		Grafo<Integer> r = t.solve();
+		System.setOut(console);
+		System.out.println("Fim\n");
+		System.out.println("Resolution");
+		System.out.println(r.toString());
 	}
 }
