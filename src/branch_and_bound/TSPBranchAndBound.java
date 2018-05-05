@@ -21,6 +21,11 @@ public class TSPBranchAndBound<T> {
 	public Grafo<T> solve() {
 		T v = graph.getVertices().get(0);
 		Node n = new Node(v, graph);
+		
+		/**
+		 * Executaion Stack tem como função fazer possivel a busca em profundidade evitando
+		 * eventuais problemas de overflow na stack da Java Virtual Machine (JVM).
+		 */
 		Stack<Node> executionStack = new Stack<>();
 
 		executionStack.push(n);
@@ -28,12 +33,17 @@ public class TSPBranchAndBound<T> {
 		while (!executionStack.empty()) {
 			n = executionStack.pop();
 			v = n.vortex;
-			System.out.println("Visited graph with cost " + n.estimatedCost);
+			System.out.println("Visited graph with cost " + n.calculateEstimatedCost());
 			System.out.println(n.visited.toString());
 			System.out.println(n.reducedGraph.toString());
-
+			
+			
+			if(!n.checkFeasibility()) {
+				continue;
+			}
+			
 			// poda por qualidade
-			// if (n.estimatedCost > bestSolution) {
+			// if (n.calculateEstimatedCost() > bestSolution) {
 			// continue;
 			// }
 			
@@ -50,8 +60,8 @@ public class TSPBranchAndBound<T> {
 				}
 				
 				// se o cricuito fechar, atualiza a melhor solução.
-				if (aux & (n.estimatedCost < bestSolution)) {
-					bestSolution = n.estimatedCost;
+				if (aux & (n.calculateEstimatedCost() < bestSolution)) {
+					bestSolution = n.calculateEstimatedCost();
 					bestSolutionGraph = n.reducedGraph;
 				}
 				continue;
@@ -82,6 +92,7 @@ public class TSPBranchAndBound<T> {
 		private Node(T v, Grafo<T> graph) {
 			path = new ArrayList<>();
 			level = 0;
+			estimatedCost = -1;
 			reducedGraph = graph.clone();
 			vortex = v;
 			visited = new ArrayList<>();
@@ -92,6 +103,7 @@ public class TSPBranchAndBound<T> {
 			path = new ArrayList<>(parent.path);
 			path.add(addToPath);
 			level = parent.level + 1;
+			estimatedCost = -1;
 			vortex = v;
 			reducedGraph = parent.reducedGraph.clone();
 			visited = new ArrayList<>(parent.visited);
@@ -115,17 +127,41 @@ public class TSPBranchAndBound<T> {
 				}
 			}
 
+		}
+		
+		private boolean checkFeasibility(T v, List<T> visited) {
+			Adjacencia a = reducedGraph.primeiroAdjacente(v);
+			visited.add(v);
+			while (a != null) {
+				if (reducedGraph.getVertices().get(a.destino()).equals(reducedGraph.getVertices().get(0)))
+					return true;
+				if(!visited.contains(reducedGraph.getVertices().get(a.destino()))) 
+					if(checkFeasibility(reducedGraph.getVertices().get(a.destino()), visited))
+						return true;
+				a = reducedGraph.proximoAdjacente(a);
+			}
+			return false; //4124
+		}
+		
+		private boolean checkFeasibility() {
+			return checkFeasibility(vortex, new ArrayList<>(visited));
+		}
+		
+		private double calculateEstimatedCost() {
+			Adjacencia a;
 			// estimar custo usando 1-Tree (lower bound)
-			estimatedCost = 0;
-			Grafo<T> oneTree = reducedGraph;// reducedGraph.executarOneTree(0);
-			for (T e : reducedGraph.getVertices()) {
-				a = oneTree.primeiroAdjacente(e);
-				while (a != null) {
-					estimatedCost += a.peso();
-					a = oneTree.proximoAdjacente(a);
+			if(estimatedCost == -1) {
+				estimatedCost = 0;
+				Grafo<T> oneTree = reducedGraph;// reducedGraph.executarOneTree(0);
+				for (T e : reducedGraph.getVertices()) {
+					a = oneTree.primeiroAdjacente(e);
+					while (a != null) {
+						estimatedCost += a.peso();
+						a = oneTree.proximoAdjacente(a);
+					}
 				}
 			}
-
+			return estimatedCost;
 		}
 
 	}
@@ -135,6 +171,8 @@ public class TSPBranchAndBound<T> {
 		for (int i = 1; i <= 8; i++) {
 			g.addVertice(i);
 		}
+		System.out.println("Executando... ");
+		PrintStream console = System.out;
 		System.setOut((new PrintStream(System.getenv("HOME") + "/testTSP.txt")));
 		g.addAresta(1, 2, 2);
 		g.addAresta(1, 3, 4);
@@ -176,6 +214,8 @@ public class TSPBranchAndBound<T> {
 
 		TSPBranchAndBound<Integer> t = new TSPBranchAndBound<>(g);
 		Grafo<Integer> r = t.solve();// t.solve();
+		System.setOut(console);
+		System.out.println("Fim\n");
 		System.out.println("Resolution");
 		System.out.println(r.toString());
 	}
