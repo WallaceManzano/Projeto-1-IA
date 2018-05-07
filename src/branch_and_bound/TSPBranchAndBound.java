@@ -1,14 +1,11 @@
 package branch_and_bound;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
 import utils.Grafo;
 import utils.Grafo.Adjacencia;
-import utils.PriorityQueue;
 import utils.UnionFind;
 
 /**
@@ -29,8 +26,8 @@ import utils.UnionFind;
  * Exemplo:
  * 
  * <pre>
- * Grafo<Integer> g = new Grafo<>(true);
- * for (int i = 1; i <= 8; i++) {
+ * Grafo&lt;Integer&gt; g = new Grafo&lt;&gt;(true);
+ * for (int i = 1; i &lt;= 8; i++) {
  * 	g.addVertice(i);
  * }
  * g.addAresta(1, 2, 2);
@@ -71,8 +68,8 @@ import utils.UnionFind;
  * g.addAresta(8, 6, 5);
  * g.addAresta(8, 7, 2);
  * 
- * TSPBranchAndBound<Integer> t = new TSPBranchAndBound<>(g);
- * Grafo<Integer> r = t.solve();
+ * TSPBranchAndBound&lt;Integer&gt; t = new TSPBranchAndBound&lt;&gt;(g);
+ * Grafo&lt;Integer&gt; r = t.solve();
  * </pre>
  * 
  * Resultado com custo: 24.0

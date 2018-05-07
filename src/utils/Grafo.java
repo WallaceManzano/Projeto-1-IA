@@ -6,20 +6,20 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 /**
- * Grafo com vertice genericos implementado por uma lista encadeada de
+ * Grafo com vértice genéricos implementado por uma lista encadeada de
  * adjacência, com quantidade de vertices dinâmica.
  * <p>
  * As arestas do grafo podem ser direcionadas ou não.
  * </p>
  * <p>
  * Os vertices do grafo serão mapeados por um inteiro para manter o acesso aos
- * seus adijacentes com menor custo.
+ * seus adjacentes com menor custo.
  * </p>
  * 
  * @author Wallace Alves Esteves Manzano
  *
  * @param <V>
- *            Tipo do vertice
+ *            Tipo do vértice
  * @see Number
  * @see Serializable
  */
@@ -68,11 +68,11 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Adiciona um vertice ao grafo, caso ele ainda não esteja no grafo.
+	 * Adiciona um vértice ao grafo, caso ele ainda não esteja no grafo.
 	 * 
 	 * @param v
-	 *            vertice a ser adicionado.
-	 * @return {@code true} se o vertice for adicionado.
+	 *            vértice a ser adicionado.
+	 * @return {@code true} se o vértice for adicionado.
 	 */
 	public boolean addVertice(V v) {
 		if (vertices.contains(v))
@@ -89,16 +89,16 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Insere uma aresta ponderada, entre o vertice de origem e destino e também uma
+	 * Insere uma aresta ponderada, entre o vértice de origem e destino e também uma
 	 * aresta de destino a origem.
 	 * 
 	 * @param origem
-	 *            vertice de origem.
+	 *            vértice de origem.
 	 * @param destino
-	 *            vertice de destino.
+	 *            vértice de destino.
 	 * @param peso
 	 *            peso da aresta.
-	 * @return
+	 * @return true se a aresta for adicionada.
 	 */
 	public boolean addAresta(V origem, V destino, double peso) {
 		int indexO = vertices.indexOf(origem);
@@ -119,9 +119,9 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	 * origem.
 	 * 
 	 * @param origem
-	 *            Index do vertice de origem.
+	 *            Index do vértice de origem.
 	 * @param destino
-	 *            Index do vertice de destino.
+	 *            Index do vértice de destino.
 	 * @param peso
 	 *            peso da aresta.
 	 * @return
@@ -139,14 +139,14 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Remove uma aresta, entre o vertice de origem e destino e também uma aresta de
+	 * Remove uma aresta, entre o vértice de origem e destino e também uma aresta de
 	 * destino a origem.
 	 * 
 	 * @param origem
-	 *            vertice de origem.
+	 *            vértice de origem.
 	 * @param destino
-	 *            vertice de destino.
-	 * @return
+	 *            vértice de destino.
+	 * @return true se a aresta for removida.
 	 */
 	public boolean removeAresta(V origem, V destino) {
 		int indexO = vertices.indexOf(origem);
@@ -178,31 +178,31 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Remove uma aresta, entre o vertice de origem e destino e também uma aresta de
+	 * Remove uma aresta, entre o vértice de origem e destino e também uma aresta de
 	 * destino a origem.
 	 * 
 	 * @param origem
-	 *            Index vertice de origem.
+	 *            Index vértice de origem.
 	 * @param destino
-	 *            Index vertice de destino.
-	 * @return
+	 *            Index vértice de destino.
+	 * @return true se a aresta for removida.
 	 */
 	public boolean removeAresta(int origem, int destino) {
 		return removeAresta(vertices.get(origem), vertices.get(destino));
 	}
 
 	/**
-	 * Retorna a proxima {@linkplain Adjacencia adjacência} a partir de uma
+	 * Retorna a próxima {@linkplain Adjacencia adjacência} a partir de uma
 	 * adjacência atual.
 	 * <p>
-	 * Usar em conjento com o método {@linkplain Grafo#primeiroAdjacente(Object)
-	 * primeiroAdjacente} para pegar o primeiro adjacente e assim percorer a lista
+	 * Usar em conjunto com o método {@linkplain Grafo#primeiroAdjacente(Object)
+	 * primeiroAdjacente} para pegar o primeiro adjacente e assim percorrer a lista
 	 * de adjacência.
 	 * </p>
 	 * 
 	 * @param a
-	 *            Adjacencia atual.
-	 * @return proximo {@linkplain Adjacencia adjacente}, ou null caso não haver
+	 *            Adjacência atual.
+	 * @return próxima {@linkplain Adjacencia adjacente}, ou null caso não haver
 	 *         mais adjacentes.
 	 * @see Adjacencia
 	 * @see Grafo#primeiroAdjacente(Object)
@@ -212,19 +212,19 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Retorna o primeiro adjacente de um vertice.
+	 * Retorna o primeiro adjacente de um vértice.
 	 * <p>
-	 * Usar em conjento com o método {@linkplain Grafo#proximoAdjacente(Object)
-	 * proximoAdjacente} para pegar o proximo adjacente e assim percorer a lista de
+	 * Usar em conjunto com o método {@linkplain Grafo#proximoAdjacente(Adjacencia)
+	 * proximoAdjacente} para pegar o próxima adjacente e assim percorrer a lista de
 	 * adjacência.
 	 * </p>
 	 * 
 	 * @param a
-	 *            Vertice
+	 *            Vértice
 	 * @return primeiro {@linkplain Adjacencia adjacente}, ou null caso não tenha
 	 *         nenhum adjacentes.
 	 * @see Adjacencia
-	 * @see Grafo#proximoAdjacente(Object)
+	 * @see Grafo#proximoAdjacente(Adjacencia)
 	 * 
 	 */
 	public Adjacencia primeiroAdjacente(V a) {
@@ -234,19 +234,19 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Retorna o primeiro adjacente de um vertice.
+	 * Retorna o primeiro adjacente de um vértice.
 	 * <p>
-	 * Usar em conjento com o método {@linkplain Grafo#proximoAdjacente(Object)
-	 * proximoAdjacente} para pegar o proximo adjacente e assim percorer a lista de
+	 * Usar em conjunto com o método {@linkplain Grafo#proximoAdjacente(Adjacencia)
+	 * proximoAdjacente} para pegar o próximo adjacente e assim percorrer a lista de
 	 * adjacência.
 	 * </p>
 	 * 
 	 * @param a
-	 *            Index do vertice
+	 *            Index do vértice
 	 * @return primeiro {@linkplain Adjacencia adjacente}, ou null caso não tenha
 	 *         nenhum adjacentes.
 	 * @see Adjacencia
-	 * @see Grafo#proximoAdjacente(Object)
+	 * @see Grafo#proximoAdjacente(Adjacencia)
 	 * 
 	 */
 	public Adjacencia primeiroAdjacente(int a) {
@@ -254,12 +254,12 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritmo de prim de arvores geradoras minimas, retoranando a
-	 * arvore geradora minima referente a este grafo, representado por um grafo.
+	 * Executa o algoritmo de Prim de arvores geradoras mínimas, retornando a
+	 * arvore geradora mínima referente a este grafo, representado por um grafo.
 	 * 
 	 * @param raiz
-	 *            da arvore geradora minima.
-	 * @return {@link Grafo} com a arvore geradora minima.
+	 *            da arvore geradora mínima.
+	 * @return {@link Grafo} com a arvore geradora mínima.
 	 */
 	public Grafo<V> executarPrim(int raiz) {
 		Prim<V> a = new Prim<V>(this);
@@ -268,12 +268,12 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritmo de prim de arvores geradoras minimas, retoranando a
-	 * arvore geradora minima referente a este grafo, representado por um grafo.
+	 * Executa o algoritmo de Prim de arvores geradoras mínima, retornando a
+	 * arvore geradora mínima referente a este grafo, representado por um grafo.
 	 * 
 	 * @param raiz
-	 *            da arvore geradora minima.
-	 * @return {@link Grafo} com a arvore geradora minima.
+	 *            da arvore geradora mínima.
+	 * @return {@link Grafo} com a arvore geradora mínima.
 	 */
 	public Grafo<V> executarKruskal(int raiz) {
 		Kruskal<V> a = new Kruskal<V>(this, 1);
@@ -288,7 +288,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritmo de geração de 1-Tree Minima.
+	 * Executa o algoritmo de geração de 1-Tree Mínima.
 	 * 
 	 * @param raiz
 	 *            da 1-Tree.
@@ -305,8 +305,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	 * 
 	 * @param k
 	 *            quantidade de clusters
-	 * @return retorana um {@link LinkedHashMap}, que mapeia para todas os vertices
-	 *         o indece de seu cluster
+	 * @return retorna um {@link LinkedHashMap}, que mapeia para todas os vertices
+	 *         o índice de seu cluster
 	 * 
 	 */
 	public LinkedHashMap<V, Integer> agrupamentoPrim(int k) {
@@ -357,8 +357,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	 * 
 	 * @param k
 	 *            quantidade de clusters
-	 * @return retorana um {@link LinkedHashMap}, que mapeia para todas os vertices
-	 *         o indece de seu cluster
+	 * @return retorna um {@link LinkedHashMap}, que mapeia para todas os vertices
+	 *         o índice de seu cluster
 	 * 
 	 */
 	public LinkedHashMap<V, Integer> agrupamentoKruskal(int k) {
@@ -389,13 +389,13 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Verifica se existe alguma aresta entre o vertice de origem e o vertice
+	 * Verifica se existe alguma aresta entre o vértice de origem e o vértice
 	 * destino
 	 * 
 	 * @param origem
-	 *            Vertice de origem
+	 *            Vértice de origem
 	 * @param destino
-	 *            Vertice de destino
+	 *            Vértice de destino
 	 * @return true se existir a aresta
 	 */
 	public boolean existeAresta(V origem, V destino) {
@@ -505,8 +505,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Classe que representa uma adjacência, contendo o peso da aresta, o vertice
-	 * destino e a proxima adjacência da lista.
+	 * Classe que representa uma adjacência, contendo o peso da aresta, o vértice
+	 * destino e a próxima adjacência da lista.
 	 * 
 	 * @author Wallace Alves Esteves Manzano
 	 * 
@@ -598,12 +598,12 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Classe utilizada para o algoritmo de prim.
+	 * Classe utilizada para o algoritmo de Prim.
 	 * 
 	 * @author Wallace Alves Esteves Manzano
 	 *
 	 * @param <V>
-	 *            Tipo do vertice do {@link Grafo}
+	 *            Tipo do vértice do {@link Grafo}
 	 */
 	private static class Prim<V> {
 		private Grafo<V> g;
@@ -622,7 +622,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Executa o algoritmo de prim para arvore geradora minima.
+		 * Executa o algoritmo de Prim para arvore geradora mínima.
 		 * 
 		 * @param raiz
 		 *            Raiz da arvore
@@ -668,10 +668,10 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Constroi uma grafo com a arvore geradora minima contruida pelo método de
+		 * Constrói uma grafo com a arvore geradora mínima construída pelo método de
 		 * {@linkplain Prim#comecarPrim(int) prim}.
 		 * 
-		 * @return Grafo contendo a arvore geradora minima.
+		 * @return Grafo contendo a arvore geradora mínima.
 		 */
 		private Grafo<V> buildGrafo() {
 			Grafo<V> a = new Grafo<V>(g.size, g.direcionado);
@@ -687,12 +687,12 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Classe utilizada para o algoritmo de kruskal.
+	 * Classe utilizada para o algoritmo de Kruskal.
 	 * 
 	 * @author Wallace Alves Esteves Manzano
 	 *
 	 * @param <V>
-	 *            Tipo do vertice do {@link Grafo}
+	 *            Tipo do vértice do {@link Grafo}
 	 */
 	private static class Kruskal<V> {
 		private Grafo<V> g;
@@ -706,7 +706,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Executa o algoritmo de krsukal para arvore geradora minima.
+		 * Executa o algoritmo de Kruskal para arvore geradora mínima.
 		 * 
 		 * @param raiz
 		 *            Raiz da arvore
@@ -737,10 +737,10 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Constroi uma grafo com a arvore geradora minima contruida pelo método de
+		 * Constrói uma grafo com a arvore geradora mínima construída pelo método de
 		 * {@linkplain Kruskal#comecarKruskal(int) kruskal}.
 		 *
-		 * @return Grafo contendo a arvore geradora minima.
+		 * @return Grafo contendo a arvore geradora mínima.
 		 */
 		private Grafo<V> buildGrafo() {
 			Grafo<V> a = new Grafo<V>(g.size, false);
