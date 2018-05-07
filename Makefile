@@ -2,26 +2,32 @@ JC = javac
 
 DIR_E = src/utils
 DIR_BnB = src/branch_and_bound
+
 DIR_B = bin
+DIR_BE = $(DIR_B)/utils
+DIR_BBnB = $(DIR_B)/branch_and_bound
 
 ARG_JC = -d $(DIR_B) -cp $(DIR_B)/
 ARG_J = -cp
-ARG_RM = -f
+ARG_RM = -f -r
 ARG_MK = -p
 
 
 .SUFFIXES: .java .class
 
-bin/Grafo.class: bin/ComparatorDouble.class bin/PriorityQueue.class bin/UnionFind.class mkdir
+$(DIR_BBnB)/TSPBranchAndBound.class: $(DIR_BE)/Grafo.class
+	$(JC) $(ARG_JC) $(DIR_BnB)/TSPBranchAndBound.java
+
+$(DIR_BE)/Grafo.class: $(DIR_BE)/ComparatorDouble.class $(DIR_BE)/PriorityQueue.class $(DIR_BE)/UnionFind.class mkdir
 	$(JC) $(ARG_JC) $(DIR_E)/Grafo.java
 
-bin/PriorityQueue.class: bin/ComparatorDouble.class mkdir
+$(DIR_BE)/PriorityQueue.class: $(DIR_BE)/ComparatorDouble.class mkdir
 	$(JC) $(ARG_JC) $(DIR_E)/PriorityQueue.java
 	
-bin/UnionFind.class: mkdir
+$(DIR_BE)/UnionFind.class: mkdir
 	$(JC) $(ARG_JC) $(DIR_E)/UnionFind.java
 	
-bin/ComparatorDouble.class: mkdir
+$(DIR_BE)/ComparatorDouble.class: mkdir
 	$(JC) $(ARG_JC) $(DIR_E)/ComparatorDouble.java
 
 .PHONY: mkdir
@@ -30,5 +36,4 @@ mkdir:
 
 .PHONY: clean
 clean:
-	rm $(ARG_RM) $(DIR_B)/*.class
-	rm $(ARG_RM) $(DIR_B)/$(DIR_E)/*.class
+	rm $(ARG_RM) $(DIR_B)
