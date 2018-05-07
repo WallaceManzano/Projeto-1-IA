@@ -7,13 +7,13 @@ import java.util.LinkedHashMap;
 
 /**
  * Grafo com vertice genericos implementado por uma lista encadeada de
- * adjacencia, com quantidade de vertices dinâmica.
+ * adjacência, com quantidade de vertices dinâmica.
  * <p>
- * As arestas do grafo são não direcionadas.
+ * As arestas do grafo podem ser direcionadas ou não.
  * </p>
  * <p>
  * Os vertices do grafo serão mapeados por um inteiro para manter o acesso aos
- * seus adijacentes com menor custo
+ * seus adijacentes com menor custo.
  * </p>
  * 
  * @author Wallace Alves Esteves Manzano
@@ -192,12 +192,12 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Retorna a proxima {@linkplain Adjacencia adjacencia} a partir de uma
-	 * adjacencia atual.
+	 * Retorna a proxima {@linkplain Adjacencia adjacência} a partir de uma
+	 * adjacência atual.
 	 * <p>
 	 * Usar em conjento com o método {@linkplain Grafo#primeiroAdjacente(Object)
 	 * primeiroAdjacente} para pegar o primeiro adjacente e assim percorer a lista
-	 * de adjacencia.
+	 * de adjacência.
 	 * </p>
 	 * 
 	 * @param a
@@ -216,7 +216,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	 * <p>
 	 * Usar em conjento com o método {@linkplain Grafo#proximoAdjacente(Object)
 	 * proximoAdjacente} para pegar o proximo adjacente e assim percorer a lista de
-	 * adjacencia.
+	 * adjacência.
 	 * </p>
 	 * 
 	 * @param a
@@ -238,7 +238,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	 * <p>
 	 * Usar em conjento com o método {@linkplain Grafo#proximoAdjacente(Object)
 	 * proximoAdjacente} para pegar o proximo adjacente e assim percorer a lista de
-	 * adjacencia.
+	 * adjacência.
 	 * </p>
 	 * 
 	 * @param a
@@ -254,7 +254,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritimo de prim de arvores geradoras minimas, retoranando a
+	 * Executa o algoritmo de prim de arvores geradoras minimas, retoranando a
 	 * arvore geradora minima referente a este grafo, representado por um grafo.
 	 * 
 	 * @param raiz
@@ -268,7 +268,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritimo de prim de arvores geradoras minimas, retoranando a
+	 * Executa o algoritmo de prim de arvores geradoras minimas, retoranando a
 	 * arvore geradora minima referente a este grafo, representado por um grafo.
 	 * 
 	 * @param raiz
@@ -288,7 +288,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritimo de geração de 1-Tree Minima.
+	 * Executa o algoritmo de geração de 1-Tree Minima.
 	 * 
 	 * @param raiz
 	 *            da 1-Tree.
@@ -414,6 +414,17 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		return false;
 	}
 
+	public boolean existeAdjacencia(Adjacencia a) {
+		Adjacencia b = primeiroAdjacente(a.origem());
+		while (b != null) {
+			if (b.equals(a))
+				return true;
+			b = proximoAdjacente(b);
+		}
+
+		return false;
+	}
+
 	public void clear() {
 		vertices.clear();
 		for (int i = 0; i < size; i++)
@@ -494,8 +505,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Classe que representa uma adjacencia, contendo o peso da aresta, o vertice
-	 * destino e a proxima adjacencia da lista.
+	 * Classe que representa uma adjacência, contendo o peso da aresta, o vertice
+	 * destino e a proxima adjacência da lista.
 	 * 
 	 * @author Wallace Alves Esteves Manzano
 	 * 
@@ -545,7 +556,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Comparador para lista de adjacencia, para maior prioridade o elemento de
+		 * Comparador para lista de adjacência, para maior prioridade o elemento de
 		 * menor peso da aresta, usando MinHeap.
 		 * 
 		 * @return Comparador
@@ -563,7 +574,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Comparador para lista de adjacencia, para maior prioridade o elemento de
+		 * Comparador para lista de adjacência, para maior prioridade o elemento de
 		 * maior peso da aresta, usando MinHeap.
 		 * 
 		 * @return Comparador
@@ -587,7 +598,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Classe utilizada para o algoritimo de prim.
+	 * Classe utilizada para o algoritmo de prim.
 	 * 
 	 * @author Wallace Alves Esteves Manzano
 	 *
@@ -602,7 +613,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		/**
 		 * 
 		 * @param g
-		 *            Grafo ao qual será executado o algoritimo.
+		 *            Grafo ao qual será executado o algoritmo.
 		 */
 		private Prim(Grafo<V> g) {
 			this.g = g;
@@ -611,7 +622,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Executa o algoritimo de prim para arvore geradora minima.
+		 * Executa o algoritmo de prim para arvore geradora minima.
 		 * 
 		 * @param raiz
 		 *            Raiz da arvore
@@ -676,7 +687,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Classe utilizada para o algoritimo de kruskal.
+	 * Classe utilizada para o algoritmo de kruskal.
 	 * 
 	 * @author Wallace Alves Esteves Manzano
 	 *
@@ -695,7 +706,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 
 		/**
-		 * Executa o algoritimo de krsukal para arvore geradora minima.
+		 * Executa o algoritmo de krsukal para arvore geradora minima.
 		 * 
 		 * @param raiz
 		 *            Raiz da arvore
@@ -743,13 +754,20 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		}
 	}
 
+	/**
+	 * Classe utilizada para a geração de 1-Tree mínima.
+	 * 
+	 * @author Wallace Manzano
+	 *
+	 * @param <V>
+	 */
 	private static class OneTree<V> {
 		Grafo<V> g;
 
 		/**
 		 * 
 		 * @param g
-		 *            Grafo ao qual será executado o algoritimo.
+		 *            Grafo ao qual será executado o algoritmo.
 		 */
 		private OneTree(Grafo<V> g) {
 			this.g = g;
@@ -757,39 +775,24 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 
 		private Grafo<V> gerenate(int root) {
 			Adjacencia a = null;
-			Grafo<V> aux = new Grafo<>(false);
-
-			for (int i = 0; i < g.getVertices().size(); i++) {
-				if (i != root) {
-					aux.addVertice(g.getVertices().get(i));
-				}
-			}
-
-			for (int i = 0; i < g.getVertices().size(); i++) {
-				if (i != root) {
-					a = g.primeiroAdjacente(i);
-					while (a != null) {
-						if (a.origem() != root && a.destino() != root) {
-							aux.addAresta(g.getVertices().get(a.origem()), g.getVertices().get(a.destino()), a.peso());
-						} else {
-						}
-						a = g.proximoAdjacente(a);
-					}
-				}
-			}
-
-			Grafo<V> r = aux.executarPrim(0);
+			Grafo<V> r = g.executarPrim(0);
 			PriorityQueue<Adjacencia> pq = new PriorityQueue<>(Adjacencia.getMinComparator());
-			a = g.primeiroAdjacente(root);
-			while (a != null) {
-				pq.add(a);
-				a = g.proximoAdjacente(a);
-			}
 
-			r.addVertice(g.getVertices().get(root));
+			for (V e : g.getVertices()) {
+				a = g.primeiroAdjacente(e);
+				while (a != null) {
+					if (a.destino() == root && !r.existeAdjacencia(a)
+							&& !r.existeAdjacencia(new Adjacencia(a.destino(), a.origem(), a.peso(), null)))
+						pq.add(a);
+					a = g.proximoAdjacente(a);
+				}
+			}
 
 			a = pq.poll();
-			r.addAresta(g.getVertices().get(root), g.getVertices().get(a.vTo), a.peso);
+			if (a != null) {
+
+				r.addAresta(g.getVertices().get(a.vFrom), g.getVertices().get(a.vTo), a.peso);
+			}
 			return r;
 		}
 
