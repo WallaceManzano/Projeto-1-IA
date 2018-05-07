@@ -1,11 +1,14 @@
 package branch_and_bound;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 import utils.Grafo;
 import utils.Grafo.Adjacencia;
+import utils.PriorityQueue;
 import utils.UnionFind;
 
 /**
@@ -72,8 +75,9 @@ import utils.UnionFind;
  * Grafo<Integer> r = t.solve();
  * </pre>
  * 
- * Retornando o grafo:
+ * Resultado com custo: 24.0
  * 
+ * Retornando o grafo:
  * <pre>
  * (1, 2) -- peso = 2.0
  * (2, 7) -- peso = 5.0
@@ -115,15 +119,14 @@ public class TSPBranchAndBound<T> {
 	 * @return o {@linkplain Grafo grafo} com o circuito de menor custo.
 	 */
 	public Grafo<T> solve() {
-		T v = graph.getVertices().get(0);
-		Node n = new Node(v, graph);
-
 		/**
 		 * Execution Stack tem como função fazer possível a busca em profundidade e
 		 * evitando eventuais problemas de overflow na stack da Java Virtual Machine
 		 * (JVM).
 		 */
 		Stack<Node> executionStack = new Stack<>();
+		T v = graph.getVertices().get(0);
+		Node n = new Node(v, graph);
 
 		executionStack.push(n);
 
@@ -132,11 +135,10 @@ public class TSPBranchAndBound<T> {
 			v = n.vortex;
 
 			// somente para teste
-			/*
-			 * System.out.println("Visited graph with cost " + n.calculateEstimatedCost());
-			 * System.out.println(n.visited.toString());
-			 * System.out.println(n.reducedGraph.toString());
-			 */
+
+			// System.out.println("Visited graph with cost " + n.calculateEstimatedCost());
+			// System.out.println(n.visited.toString());
+			// System.out.println(n.reducedGraph.toString());
 
 			// poda por infactibilidade (não consegue fechar circuito)
 			if (!n.checkFeasibility()) {
@@ -164,7 +166,7 @@ public class TSPBranchAndBound<T> {
 				}
 
 				// se o cricuito fechar, atualiza a melhor solução.
-				if (aux & (n.calculateEstimatedCost() < bestSolution)) {
+				if (aux && (n.calculateEstimatedCost() < bestSolution)) {
 					bestSolution = n.calculateEstimatedCost();
 					bestSolutionGraph = n.reducedGraph;
 				}
@@ -339,59 +341,5 @@ public class TSPBranchAndBound<T> {
 			}
 			return estimatedCost;
 		}
-	}
-
-	public static void main(String[] agrgs) throws java.io.IOException {
-		Grafo<Integer> g = new Grafo<>(true);
-		for (int i = 1; i <= 8; i++) {
-			g.addVertice(i);
-		}
-		System.out.println("Executando... ");
-		java.io.PrintStream console = System.out;
-		System.setOut((new java.io.PrintStream(System.getenv("HOME") + "/testTSP.txt")));
-		g.addAresta(1, 2, 2);
-		g.addAresta(1, 3, 4);
-		g.addAresta(1, 4, 5);
-
-		g.addAresta(2, 1, 2);
-		g.addAresta(2, 3, 4);
-		g.addAresta(2, 6, 7);
-		g.addAresta(2, 7, 5);
-
-		g.addAresta(3, 1, 4);
-		g.addAresta(3, 2, 4);
-		g.addAresta(3, 4, 1);
-		g.addAresta(3, 5, 7);
-		g.addAresta(3, 6, 4);
-
-		g.addAresta(4, 1, 5);
-		g.addAresta(4, 3, 1);
-		g.addAresta(4, 5, 10);
-
-		g.addAresta(5, 3, 7);
-		g.addAresta(5, 4, 10);
-		g.addAresta(5, 6, 1);
-		g.addAresta(5, 8, 4);
-
-		g.addAresta(6, 2, 7);
-		g.addAresta(6, 3, 4);
-		g.addAresta(6, 5, 1);
-		g.addAresta(6, 7, 3);
-		g.addAresta(6, 8, 5);
-
-		g.addAresta(7, 2, 5);
-		g.addAresta(7, 6, 3);
-		g.addAresta(7, 8, 2);
-
-		g.addAresta(8, 5, 4);
-		g.addAresta(8, 6, 5);
-		g.addAresta(8, 7, 2);
-
-		TSPBranchAndBound<Integer> t = new TSPBranchAndBound<>(g);
-		Grafo<Integer> r = t.solve();
-		System.setOut(console);
-		System.out.println("Fim\n");
-		System.out.println("Resultado com custo: " + t.solutionCost());
-		System.out.println(r.toString());
 	}
 }
