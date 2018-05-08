@@ -253,6 +253,23 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		return listaAdjacencia[a];
 	}
 
+	
+	public double getPesoAresta(V origem, V destino) {
+		int indexO = vertices.indexOf(origem);
+		int indexD = vertices.indexOf(destino);
+		if (indexD < 0)
+			return Double.MAX_VALUE;
+		if (indexO < 0)
+			return Double.MAX_VALUE;
+		Adjacencia aux = primeiroAdjacente(origem);
+		while (aux != null) {
+			if (aux.vTo == indexD)
+				return aux.peso;
+			aux = proximoAdjacente(aux);
+		}
+		return Double.MAX_VALUE;
+	}
+
 	/**
 	 * Executa o algoritmo de Prim de arvores geradoras mínimas, retornando a
 	 * arvore geradora mínima referente a este grafo, representado por um grafo.

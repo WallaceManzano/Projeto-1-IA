@@ -3,6 +3,7 @@ package branch_and_bound;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.ThreadLocalRandom;
 
 import utils.Grafo;
 import utils.Grafo.Adjacencia;
@@ -339,5 +340,33 @@ public class TSPBranchAndBound<T> {
 			}
 			return estimatedCost;
 		}
+	}
+	
+
+
+	public static void main(String[] agrgs) throws java.io.IOException {
+		Grafo<Integer> g = new Grafo<>(false);
+		for (int i = 1; i <= 10; i++) {
+			g.addVertice(i);
+		}
+		System.out.println("Executando... ");
+		java.io.PrintStream console = System.out;
+		System.setOut((new java.io.PrintStream(System.getenv("HOME") + "/testTSP.txt")));
+		
+		for (int i = 1; i <= 10; i++) {
+			for (int j = i + 1; j <= 10; j++) {
+				if(i != j) {
+					g.addAresta(i, j, ThreadLocalRandom.current().nextInt(50));
+				}
+			}
+		}
+		
+
+		TSPBranchAndBound<Integer> t = new TSPBranchAndBound<>(g);
+		Grafo<Integer> r = t.solve();
+		System.setOut(console);
+		System.out.println("Fim\n");
+		System.out.println("Resultado com custo: " + t.solutionCost());
+		System.out.println(r.toString());
 	}
 }
