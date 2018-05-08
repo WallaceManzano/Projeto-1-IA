@@ -93,7 +93,7 @@ import utils.UnionFind;
  *            Tipo da aresta do grafo.
  * @see Grafo
  */
-public class TSPBranchAndBound<T> {
+public class PCVBranchAndBound<T> {
 	private Grafo<T> graph;
 	private double bestSolution = Double.MAX_VALUE;
 	private Grafo<T> bestSolutionGraph = null;
@@ -105,7 +105,7 @@ public class TSPBranchAndBound<T> {
 	 *            {@link Grafo} representando o modelo do problema do caixeiro
 	 *            viajante a ser resolvido.
 	 */
-	public TSPBranchAndBound(Grafo<T> g) {
+	public PCVBranchAndBound(Grafo<T> g) {
 		this.graph = g;
 		this.graph.setDirecionado(true);
 	}
@@ -362,7 +362,7 @@ public class TSPBranchAndBound<T> {
 		}
 		
 
-		TSPBranchAndBound<Integer> t = new TSPBranchAndBound<>(g);
+		PCVBranchAndBound<Integer> t = new PCVBranchAndBound<>(g);
 		Grafo<Integer> r = t.solve();
 		System.setOut(console);
 		System.out.println("Fim\n");

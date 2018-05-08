@@ -253,7 +253,6 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 		return listaAdjacencia[a];
 	}
 
-	
 	public double getPesoAresta(V origem, V destino) {
 		int indexO = vertices.indexOf(origem);
 		int indexD = vertices.indexOf(destino);
@@ -271,8 +270,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritmo de Prim de arvores geradoras mínimas, retornando a
-	 * arvore geradora mínima referente a este grafo, representado por um grafo.
+	 * Executa o algoritmo de Prim de arvores geradoras mínimas, retornando a arvore
+	 * geradora mínima referente a este grafo, representado por um grafo.
 	 * 
 	 * @param raiz
 	 *            da arvore geradora mínima.
@@ -285,8 +284,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	}
 
 	/**
-	 * Executa o algoritmo de Prim de arvores geradoras mínima, retornando a
-	 * arvore geradora mínima referente a este grafo, representado por um grafo.
+	 * Executa o algoritmo de Prim de arvores geradoras mínima, retornando a arvore
+	 * geradora mínima referente a este grafo, representado por um grafo.
 	 * 
 	 * @param raiz
 	 *            da arvore geradora mínima.
@@ -322,8 +321,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	 * 
 	 * @param k
 	 *            quantidade de clusters
-	 * @return retorna um {@link LinkedHashMap}, que mapeia para todas os vertices
-	 *         o índice de seu cluster
+	 * @return retorna um {@link LinkedHashMap}, que mapeia para todas os vertices o
+	 *         índice de seu cluster
 	 * 
 	 */
 	public LinkedHashMap<V, Integer> agrupamentoPrim(int k) {
@@ -374,8 +373,8 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	 * 
 	 * @param k
 	 *            quantidade de clusters
-	 * @return retorna um {@link LinkedHashMap}, que mapeia para todas os vertices
-	 *         o índice de seu cluster
+	 * @return retorna um {@link LinkedHashMap}, que mapeia para todas os vertices o
+	 *         índice de seu cluster
 	 * 
 	 */
 	public LinkedHashMap<V, Integer> agrupamentoKruskal(int k) {
@@ -456,7 +455,7 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	public boolean direcionado() {
 		return direcionado;
 	}
-	
+
 	public void setDirecionado(boolean direcionado) {
 		this.direcionado = direcionado;
 	}
