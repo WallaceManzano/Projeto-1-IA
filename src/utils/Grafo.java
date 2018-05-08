@@ -439,6 +439,10 @@ public class Grafo<V> implements java.io.Serializable, Cloneable {
 	public boolean direcionado() {
 		return direcionado;
 	}
+	
+	public void setDirecionado(boolean direcionado) {
+		this.direcionado = direcionado;
+	}
 
 	public Grafo<V> clone() {
 		Grafo<V> g = new Grafo<>(size, direcionado);

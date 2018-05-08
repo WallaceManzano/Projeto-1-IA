@@ -106,6 +106,7 @@ public class TSPBranchAndBound<T> {
 	 */
 	public TSPBranchAndBound(Grafo<T> g) {
 		this.graph = g;
+		this.graph.setDirecionado(true);
 	}
 
 	/**
