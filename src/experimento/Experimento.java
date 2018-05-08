@@ -105,7 +105,7 @@ public class Experimento {
 
 		System.out.println("\r" + aux);
 
-		System.out.println("Fim...\nResultado disponível nos arquivos Resultados[numero da execução].txt ");
+		System.out.println("Fim...\nResultado disponível nos arquivos Resultados[numero de cidades].txt ");
 	}
 
 	public static Grafo<Integer> gerarGrafo(Integer i, Grafo<Integer> g) {
