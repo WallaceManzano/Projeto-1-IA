@@ -7,7 +7,14 @@
   Link JRE 8: http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html
   
   Além disso o programa deve ser preferencialmente executado usando terminal. 
+  
   É recomendavel também usar o programa make para a execução do arquivo Makefile.
+  
+  Link Make Windows: http://gnuwin32.sourceforge.net/packages/make.htm
+  
+  Make, em linux, faz parte por default.
+  
+  O procedimento abaixo foi testado em Ubuntu 16.04 LTS e em Windows 10.
 
 ## Execução do experimento
   Primeiramente deve-se baixar o projeto via git usando um dos dois comandos abaixo:
