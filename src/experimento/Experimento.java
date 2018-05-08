@@ -14,12 +14,16 @@ import utils.Grafo;
 public class Experimento {
 	public static void main(String[] args) {
 		Integer c;
-		Integer d = 5; // define o n�mero de cidades inicial
+		Integer D_INICIAL = 5;
+		Integer d = D_INICIAL; // define o n�mero de cidades inicial
 		double media1, media2;
 		Grafo<Integer> g = new Grafo<Integer>(), g2;
 		String file;
 		System.out.println("Executando...");
-		while (d != 21) { // define o número de cidades final-1
+		Integer a = 0;
+		Integer D = 21; // define o número de cidades final-1
+		Integer C = 10; // define o número de execuções-1
+		while (d != D) {
 			file = "Resultados" + d + ".txt";
 			File f = new File(file);
 			try {
@@ -28,8 +32,19 @@ public class Experimento {
 				media1 = 0;
 				media2 = 0;
 				w.write("Número de cidades: " + d + "\n");
-				while (c != 10) {
-					System.out.println("Execução " + (c + 1) + "...");
+				while (c != C) {
+					String aux = "|";
+					Double aux2 = Math.floor(((double) (a / ((double) (C) * (D - D_INICIAL))) * ((double) 50)));
+					for (int i = 0; i < 50; i++) {
+						if (i < aux2)
+							aux += "=";
+						else
+							aux += " ";
+					}
+					aux += "|";
+
+					System.out.print("\r" + aux);
+					a++;
 					g = gerarGrafo(d, g);
 					w.write("Execução: " + (c + 1) + "\n");
 					w.write("A*\n");
@@ -67,10 +82,9 @@ public class Experimento {
 
 					w.write(r.toString());
 					w.write("\nTempo gasto: " + totalTime2 / 1000 + "\n\n");
-					
+
 					g.clear();
 					g2.clear();
-					System.out.println("Termino da execução " + (c) + "...");
 				}
 				media1 = media1 / c;
 				media2 = media2 / c;
@@ -82,7 +96,16 @@ public class Experimento {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Fim...\nResultado disponível nos arquivos Resultados[numero da execução].txt");
+
+		String aux = "|";
+		for (int i = 0; i < 50; i++) {
+			aux += "=";
+		}
+		aux += "|";
+
+		System.out.println("\r" + aux);
+
+		System.out.println("Fim...\nResultado disponível nos arquivos Resultados[numero da execução].txt ");
 	}
 
 	public static Grafo<Integer> gerarGrafo(Integer i, Grafo<Integer> g) {
